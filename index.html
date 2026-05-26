@@ -186,20 +186,20 @@
 
 <script>
   const thumbnails = [
-    // GAMING (11)
-    ...Array.from({length:11},(_,i)=>({ cat:'gaming', src:`gaming/gaming-${i+1}.jpg`, label:'Gaming' })),
+    // GAMING (11) — gaming-6 is PNG
+    ...Array.from({length:11},(_,i)=>({ cat:'gaming', src:`gaming/gaming-${i+1}.${i+1===6?'png':'jpg'}`, label:'Gaming' })),
     // PUBG (8)
     ...Array.from({length:8},(_,i)=>({ cat:'pubg', src:`pubg/pubg-${i+1}.jpg`, label:'PUBG' })),
-    // LIVESTREAM (10)
-    ...Array.from({length:10},(_,i)=>({ cat:'livestream', src:`livestream/livestream-${i+1}.jpg`, label:'Livestream' })),
-    // TECH (6)
-    ...Array.from({length:6},(_,i)=>({ cat:'tech', src:`tech/tech-${i+1}.jpg`, label:'Tech' })),
+    // LIVESTREAM (10) — livestream-6 is PNG
+    ...Array.from({length:10},(_,i)=>({ cat:'livestream', src:`livestream/livestream-${i+1}.${i+1===6?'png':'jpg'}`, label:'Livestream' })),
+    // TECH (6) — tech-5 and tech-6 are PNG
+    ...Array.from({length:6},(_,i)=>({ cat:'tech', src:`tech/tech-${i+1}.${i+1>=5?'png':'jpg'}`, label:'Tech' })),
     // TUTORIAL (4)
     ...Array.from({length:4},(_,i)=>({ cat:'tutorial', src:`tutorial/tutorial-${i+1}.jpg`, label:'Tutorial' })),
     // VLOG (7)
     ...Array.from({length:7},(_,i)=>({ cat:'vlog', src:`vlog/vlog-${i+1}.jpg`, label:'Vlog' })),
-    // PODCAST (5)
-    ...Array.from({length:5},(_,i)=>({ cat:'podcast', src:`podcast/podcast-${i+1}.jpg`, label:'Podcast' })),
+    // PODCAST (5) — podcast-2 is PNG
+    ...Array.from({length:5},(_,i)=>({ cat:'podcast', src:`podcast/podcast-${i+1}.${i+1===2?'png':'jpg'}`, label:'Podcast' })),
     // REACTION (2)
     ...Array.from({length:2},(_,i)=>({ cat:'reaction', src:`reaction/reaction-${i+1}.jpg`, label:'Reaction' })),
     // COMMENTARY (5)
