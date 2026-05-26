@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DangerGFX — YouTube Thumbnail Designer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #E24B4A;
+    --red-dark: #c93c3b;
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0f0f0;
+    --muted: #888;
+    --radius: 10px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+  /* NAV */
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2rem; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: rgba(13,13,13,0.92); backdrop-filter: blur(8px); z-index: 100; }
+  .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { background: var(--red); color: #fff; border: none; padding: 8px 20px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; }
+  .nav-cta:hover { background: var(--red-dark); }
+
+  /* HERO */
+  .hero { text-align: center; padding: 6rem 2rem 5rem; max-width: 700px; margin: 0 auto; }
+  .hero-badge { display: inline-block; background: rgba(226,75,74,0.12); color: var(--red); border: 0.5px solid rgba(226,75,74,0.3); border-radius: 999px; font-size: 13px; padding: 5px 16px; margin-bottom: 1.5rem; font-weight: 500; }
+  .hero h1 { font-size: clamp(36px, 6vw, 60px); font-weight: 800; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 1.25rem; }
+  .hero h1 span { color: var(--red); }
+  .hero p { font-size: 17px; color: var(--muted); max-width: 480px; margin: 0 auto 2.5rem; }
+  .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: var(--radius); font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; border: 0.5px solid var(--border); color: var(--text); background: var(--surface); transition: background 0.15s; }
+  .btn:hover { background: var(--surface2); }
+  .btn-red { background: var(--red); color: #fff; border-color: var(--red); }
+  .btn-red:hover { background: var(--red-dark); }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 600px; margin: 4rem auto; gap: 1px; background: var(--border); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .stat { background: var(--surface); padding: 1.5rem 1rem; text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 700; color: var(--red); }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* SECTION */
+  .section { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
+  .section-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 0.75rem; }
+  .section-title { font-size: clamp(24px, 4vw, 34px); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 2.5rem; }
+
+  /* PORTFOLIO GRID */
+  .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .thumb { aspect-ratio: 16/9; border-radius: var(--radius); overflow: hidden; background: var(--surface); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; }
+  .thumb-inner { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 12px; }
+  .thumb-icon { font-size: 26px; opacity: 0.4; }
+  .thumb-label { font-size: 11px; color: var(--muted); text-align: center; }
+  .thumb-hover { position: absolute; inset: 0; background: rgba(226,75,74,0.8); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
+  .thumb:hover .thumb-hover { opacity: 1; }
+  .thumb-hover span { color: #fff; font-size: 13px; font-weight: 500; }
+  .add-note { text-align: center; margin-top: 1.25rem; font-size: 14px; color: var(--muted); }
+
+  /* NICHES */
+  .niche-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .niche { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px 18px; font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+
+  /* CONTACT */
+  .contact-section { background: var(--surface); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
+  .contact-inner { max-width: 700px; margin: 0 auto; padding: 5rem 2rem; text-align: center; }
+  .contact-inner h2 { font-size: clamp(24px, 4vw, 36px); font-weight: 700; margin-bottom: 1rem; letter-spacing: -0.5px; }
+  .contact-inner p { color: var(--muted); font-size: 16px; margin-bottom: 2rem; }
+  .contact-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 440px; margin: 0 auto; }
+  .contact-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem; text-align: left; text-decoration: none; color: var(--text); display: block; transition: border-color 0.2s; }
+  .contact-card:hover { border-color: var(--red); }
+  .contact-card-icon { font-size: 22px; margin-bottom: 10px; }
+  .contact-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .contact-card p { font-size: 13px; color: var(--muted); margin: 0; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 2rem; font-size: 13px; color: var(--muted); }
+
+  @media (max-width: 600px) {
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats { grid-template-columns: 1fr; }
+    .contact-cards { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Danger<span>GFX</span></div>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#niches">Niches</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-cta" href="#contact">Hire me</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">✦ Open for new clients</div>
+  <h1>Thumbnails that make people <span>click.</span></h1>
+  <p>I design high-converting YouTube thumbnails for creators who want more views — not just pretty graphics.</p>
+  <div class="cta-row">
+    <a class="btn btn-red" href="https://wa.me/YOUR_NUMBER">📲 WhatsApp me</a>
+    <a class="btn" href="https://instagram.com/dangergfx">📸 See my Instagram</a>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Thumbnails delivered</div></div>
+  <div class="stat"><div class="stat-num">48h</div><div class="stat-label">Avg. turnaround</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Client satisfaction</div></div>
+</div>
+
+<div class="section" id="work">
+  <div class="section-eyebrow">Portfolio</div>
+  <div class="section-title">My work</div>
+  <div class="portfolio-grid" id="grid"></div>
+  <p class="add-note">💡 Replace placeholders above with your actual thumbnail images.</p>
+</div>
+
+<div class="section" id="niches">
+  <div class="section-eyebrow">Specialities</div>
+  <div class="section-title">Niches I design for</div>
+  <div class="niche-grid">
+    <div class="niche"><span class="dot"></span>Gaming</div>
+    <div class="niche"><span class="dot"></span>Finance & Investing</div>
+    <div class="niche"><span class="dot"></span>Fitness & Health</div>
+    <div class="niche"><span class="dot"></span>Tech & Gadgets</div>
+    <div class="niche"><span class="dot"></span>Vlogs</div>
+    <div class="niche"><span class="dot"></span>Education</div>
+    <div class="niche"><span class="dot"></span>Motivation</div>
+    <div class="niche"><span class="dot"></span>Podcasts</div>
+    <div class="niche"><span class="dot"></span>Music</div>
+    <div class="niche"><span class="dot"></span>Comedy</div>
+    <div class="niche"><span class="dot"></span>Business</div>
+    <div class="niche"><span class="dot"></span>Lifestyle</div>
+  </div>
+</div>
+
+<div class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="section-eyebrow" style="text-align:center;">Get in touch</div>
+    <h2>Ready to get more clicks?</h2>
+    <p>Send me a message on WhatsApp or DM me on Instagram. I usually respond within a few hours.</p>
+    <div class="contact-cards">
+      <a class="contact-card" href="https://wa.me/YOUR_NUMBER">
+        <div class="contact-card-icon">💬</div>
+        <h3>WhatsApp</h3>
+        <p>Fastest way to reach me</p>
+      </a>
+      <a class="contact-card" href="https://instagram.com/dangergfx">
+        <div class="contact-card-icon">📸</div>
+        <h3>Instagram</h3>
+        <p>@dangergfx — DM me</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 DangerGFX · All rights reserved</footer>
+
+<script>
+  const labels = [
+    "Gaming action pack","Finance wealth series","Fitness transformation","Tech review","Vlog highlight",
+    "Podcast episode","Education how-to","Motivation","Sports analysis","Music release","Travel diary","Comedy skit"
+  ];
+  const colors = ["#E24B4A","#378ADD","#1D9E75","#BA7517","#D4537E","#534AB7"];
+  const grid = document.getElementById("grid");
+  labels.forEach((label, i) => {
+    const c = colors[i % colors.length];
+    grid.innerHTML += `
+      <div class="thumb" style="background: ${c}14;">
+        <div class="thumb-inner">
+          <div class="thumb-icon" style="color:${c}">🖼</div>
+          <div class="thumb-label" style="color:${c}aa">${label}</div>
+        </div>
+        <div class="thumb-hover"><span>Your thumbnail</span></div>
+      </div>`;
+  });
+</script>
+</body>
+</html>
