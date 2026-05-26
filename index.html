@@ -49,20 +49,26 @@
   .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
   /* SECTION */
-  .section { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
+  .section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
   .section-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 0.75rem; }
   .section-title { font-size: clamp(24px, 4vw, 34px); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 2.5rem; }
 
+  /* FILTER TABS */
+  .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; }
+  .tab { padding: 7px 16px; border-radius: 999px; font-size: 13px; font-weight: 500; cursor: pointer; border: 0.5px solid var(--border); color: var(--muted); background: var(--surface); transition: all 0.15s; }
+  .tab:hover { color: var(--text); border-color: var(--muted); }
+  .tab.active { background: var(--red); color: #fff; border-color: var(--red); }
+
   /* PORTFOLIO GRID */
   .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .thumb { aspect-ratio: 16/9; border-radius: var(--radius); overflow: hidden; background: var(--surface); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; }
-  .thumb-inner { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 12px; }
-  .thumb-icon { font-size: 26px; opacity: 0.4; }
-  .thumb-label { font-size: 11px; color: var(--muted); text-align: center; }
-  .thumb-hover { position: absolute; inset: 0; background: rgba(226,75,74,0.8); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
+  .thumb { aspect-ratio: 16/9; border-radius: var(--radius); overflow: hidden; background: var(--surface); border: 0.5px solid var(--border); position: relative; cursor: pointer; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+  .thumb:hover img { transform: scale(1.04); }
+  .thumb-hover { position: absolute; inset: 0; background: rgba(226,75,74,0.75); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
   .thumb:hover .thumb-hover { opacity: 1; }
-  .thumb-hover span { color: #fff; font-size: 13px; font-weight: 500; }
-  .add-note { text-align: center; margin-top: 1.25rem; font-size: 14px; color: var(--muted); }
+  .thumb-hover span { color: #fff; font-size: 13px; font-weight: 600; letter-spacing: 0.05em; }
+  .thumb[data-cat] { transition: opacity 0.2s, transform 0.2s; }
+  .thumb.hidden { display: none; }
 
   /* NICHES */
   .niche-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
@@ -110,12 +116,12 @@
   <p>I design high-converting YouTube thumbnails for creators who want more views — not just pretty graphics.</p>
   <div class="cta-row">
     <a class="btn btn-red" href="https://wa.me/YOUR_NUMBER">📲 WhatsApp me</a>
-    <a class="btn" href="https://instagram.com/dangergfx">📸 See my Instagram</a>
+    <a class="btn" href="https://instagram.com/YOUR_INSTAGRAM">📸 See my Instagram</a>
   </div>
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Thumbnails delivered</div></div>
+  <div class="stat"><div class="stat-num">58+</div><div class="stat-label">Thumbnails delivered</div></div>
   <div class="stat"><div class="stat-num">48h</div><div class="stat-label">Avg. turnaround</div></div>
   <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Client satisfaction</div></div>
 </div>
@@ -123,8 +129,21 @@
 <div class="section" id="work">
   <div class="section-eyebrow">Portfolio</div>
   <div class="section-title">My work</div>
+
+  <div class="filter-tabs">
+    <div class="tab active" onclick="filter('all')">All</div>
+    <div class="tab" onclick="filter('gaming')">Gaming</div>
+    <div class="tab" onclick="filter('pubg')">PUBG</div>
+    <div class="tab" onclick="filter('livestream')">Livestream</div>
+    <div class="tab" onclick="filter('tech')">Tech</div>
+    <div class="tab" onclick="filter('tutorial')">Tutorial</div>
+    <div class="tab" onclick="filter('vlog')">Vlog</div>
+    <div class="tab" onclick="filter('podcast')">Podcast</div>
+    <div class="tab" onclick="filter('reaction')">Reaction</div>
+    <div class="tab" onclick="filter('commentary')">Commentary</div>
+  </div>
+
   <div class="portfolio-grid" id="grid"></div>
-  <p class="add-note">💡 Replace placeholders above with your actual thumbnail images.</p>
 </div>
 
 <div class="section" id="niches">
@@ -132,17 +151,14 @@
   <div class="section-title">Niches I design for</div>
   <div class="niche-grid">
     <div class="niche"><span class="dot"></span>Gaming</div>
-    <div class="niche"><span class="dot"></span>Finance & Investing</div>
-    <div class="niche"><span class="dot"></span>Fitness & Health</div>
+    <div class="niche"><span class="dot"></span>PUBG</div>
+    <div class="niche"><span class="dot"></span>Livestreams</div>
     <div class="niche"><span class="dot"></span>Tech & Gadgets</div>
+    <div class="niche"><span class="dot"></span>Tutorials</div>
     <div class="niche"><span class="dot"></span>Vlogs</div>
-    <div class="niche"><span class="dot"></span>Education</div>
-    <div class="niche"><span class="dot"></span>Motivation</div>
     <div class="niche"><span class="dot"></span>Podcasts</div>
-    <div class="niche"><span class="dot"></span>Music</div>
-    <div class="niche"><span class="dot"></span>Comedy</div>
-    <div class="niche"><span class="dot"></span>Business</div>
-    <div class="niche"><span class="dot"></span>Lifestyle</div>
+    <div class="niche"><span class="dot"></span>Reaction</div>
+    <div class="niche"><span class="dot"></span>Commentary</div>
   </div>
 </div>
 
@@ -157,10 +173,10 @@
         <h3>WhatsApp</h3>
         <p>Fastest way to reach me</p>
       </a>
-      <a class="contact-card" href="https://instagram.com/dangergfx">
+      <a class="contact-card" href="https://instagram.com/YOUR_INSTAGRAM">
         <div class="contact-card-icon">📸</div>
         <h3>Instagram</h3>
-        <p>@dangergfx — DM me</p>
+        <p>DM me anytime</p>
       </a>
     </div>
   </div>
@@ -169,23 +185,47 @@
 <footer>© 2026 DangerGFX · All rights reserved</footer>
 
 <script>
-  const labels = [
-    "Gaming action pack","Finance wealth series","Fitness transformation","Tech review","Vlog highlight",
-    "Podcast episode","Education how-to","Motivation","Sports analysis","Music release","Travel diary","Comedy skit"
+  const thumbnails = [
+    // GAMING (11)
+    ...Array.from({length:11},(_,i)=>({ cat:'gaming', src:`gaming/gaming-${i+1}.jpg`, label:'Gaming' })),
+    // PUBG (8)
+    ...Array.from({length:8},(_,i)=>({ cat:'pubg', src:`pubg/pubg-${i+1}.jpg`, label:'PUBG' })),
+    // LIVESTREAM (10)
+    ...Array.from({length:10},(_,i)=>({ cat:'livestream', src:`livestream/livestream-${i+1}.jpg`, label:'Livestream' })),
+    // TECH (6)
+    ...Array.from({length:6},(_,i)=>({ cat:'tech', src:`tech/tech-${i+1}.jpg`, label:'Tech' })),
+    // TUTORIAL (4)
+    ...Array.from({length:4},(_,i)=>({ cat:'tutorial', src:`tutorial/tutorial-${i+1}.jpg`, label:'Tutorial' })),
+    // VLOG (7)
+    ...Array.from({length:7},(_,i)=>({ cat:'vlog', src:`vlog/vlog-${i+1}.jpg`, label:'Vlog' })),
+    // PODCAST (5)
+    ...Array.from({length:5},(_,i)=>({ cat:'podcast', src:`podcast/podcast-${i+1}.jpg`, label:'Podcast' })),
+    // REACTION (2)
+    ...Array.from({length:2},(_,i)=>({ cat:'reaction', src:`reaction/reaction-${i+1}.jpg`, label:'Reaction' })),
+    // COMMENTARY (5)
+    ...Array.from({length:5},(_,i)=>({ cat:'commentary', src:`commentary/commentary-${i+1}.jpg`, label:'Commentary' })),
   ];
-  const colors = ["#E24B4A","#378ADD","#1D9E75","#BA7517","#D4537E","#534AB7"];
-  const grid = document.getElementById("grid");
-  labels.forEach((label, i) => {
-    const c = colors[i % colors.length];
-    grid.innerHTML += `
-      <div class="thumb" style="background: ${c}14;">
-        <div class="thumb-inner">
-          <div class="thumb-icon" style="color:${c}">🖼</div>
-          <div class="thumb-label" style="color:${c}aa">${label}</div>
-        </div>
-        <div class="thumb-hover"><span>Your thumbnail</span></div>
-      </div>`;
+
+  const grid = document.getElementById('grid');
+
+  thumbnails.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'thumb';
+    div.dataset.cat = t.cat;
+    div.innerHTML = `
+      <img src="${t.src}" alt="${t.label} thumbnail" loading="lazy" />
+      <div class="thumb-hover"><span>${t.label}</span></div>
+    `;
+    grid.appendChild(div);
   });
+
+  function filter(cat) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.querySelectorAll('.thumb').forEach(t => {
+      t.classList.toggle('hidden', cat !== 'all' && t.dataset.cat !== cat);
+    });
+  }
 </script>
 </body>
 </html>
